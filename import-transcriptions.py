@@ -32,5 +32,16 @@ with open('transcriptions.csv', newline='') as csv_file:
         ds_record_id = cursor.lastrowid
         # Create DataScribe values.
         for csv_column, ds_field_id in constants.FIELD_IDS.items():
-            cursor.execute(insert_ds_value, (ds_field_id, ds_record_id, csv_row[csv_column]))
+            # urban_rural_code
+            if csv_column == 'urban_rural_code':
+                if csv_row['urban_rural_code'] == 'R':
+                    text = 'Rural'
+                elif csv_row['urban_rural_code'] == 'U':
+                    text = 'Urban'
+                else:
+                    text = None
+            # default
+            else:
+                text = csv_row[csv_column]
+            cursor.execute(insert_ds_value, (ds_field_id, ds_record_id, text))
     conn.commit()
