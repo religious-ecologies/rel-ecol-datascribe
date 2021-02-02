@@ -36,7 +36,7 @@ with open('transcriptions.csv', newline='') as csv_file:
             is_missing = 0
             is_illegible = 0
             # Handle special cases.
-            if csv_row[FLAGGED_MAP[csv_column]] != '':
+            if csv_row[constants.FLAGGED_MAP[csv_column]] != '':
                 # Any value in the accompanying flagged column means the value is illegible
                 is_illegible = 1
             if text == 'NA' or text == '':
