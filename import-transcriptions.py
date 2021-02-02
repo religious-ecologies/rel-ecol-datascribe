@@ -31,13 +31,16 @@ with open('transcriptions.csv', newline='') as csv_file:
         cursor.execute(insert_ds_record, (ds_item_id, constants.USER_ID, constants.USER_ID, datetime.now(), 1))
         ds_record_id = cursor.lastrowid
         # Create DataScribe values.
-        for csv_column, ds_field_id in constants.FIELD_IDS.items():
+        for csv_column, ds_field_id in constants.FIELD_MAP.items():
             text = csv_row[csv_column]
             is_missing = 0
             is_illegible = 0
             # Handle special cases.
-            if text == 'NA':
-                # "NA" means the value is missing
+            if csv_row[FLAGGED_MAP[csv_column]] != '':
+                # Any value in the accompanying flagged column means the value is illegible
+                is_illegible = 1
+            if text == 'NA' or text == '':
+                # "NA" or empty string means the value is missing
                 text = None
                 is_missing = 1
             elif csv_column == 'urban_rural_code':
@@ -48,5 +51,14 @@ with open('transcriptions.csv', newline='') as csv_file:
                     text = 'Urban'
                 else:
                     text = None
+                    is_missing = 1
+            elif csv_column == '10_own_residence':
+                if csv_row['10_own_residence'] == 'TRUE':
+                    text = 'Yes'
+                elif csv_row['10_own_residence'] == 'FALSE':
+                    text = 'No'
+                else:
+                    text = None
+                    is_missing = 1
             cursor.execute(insert_ds_value, (ds_field_id, ds_record_id, is_missing, is_illegible, text))
     conn.commit()
