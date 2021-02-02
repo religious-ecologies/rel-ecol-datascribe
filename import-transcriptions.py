@@ -31,6 +31,6 @@ with open('transcriptions.csv', newline='') as csv_file:
         cursor.execute(insert_ds_record, (ds_item_id, constants.USER_ID, constants.USER_ID, datetime.now()))
         ds_record_id = cursor.lastrowid
         # Create DataScribe values.
-        for csv_column, ds_field_id in constants.FIELDS.items():
+        for csv_column, ds_field_id in constants.FIELD_IDS.items():
             cursor.execute(insert_ds_value, (ds_field_id, ds_record_id, cv_row[csv_column]))
     conn.commit()
