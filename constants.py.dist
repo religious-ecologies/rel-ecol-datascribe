@@ -4,12 +4,13 @@ MYSQL_PASSWORD = ''
 MYSQL_HOST     = ''
 MYSQL_DATABASE = ''
 
+USER_ID = 0
+DATASET_ID = 0
+
 # Map from CSV row to Omeka item using unique ID (mare:imageOriginalPath)
 PROPERTY_ID_IMAGE_ORIGINAL_PATH = 0
 
 # Map from CSV column to DataScribe field ID
-PROJECT_ID = 0
-DATASET_ID = 0
 FIELD_relative_path_to_img = 0
 FIELD_dcterms_title = 0
 FIELD_dcterms_creator = 0
