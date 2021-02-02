@@ -11,7 +11,7 @@ cursor = conn.cursor()
 
 select_o_item = 'SELECT resource_id FROM value WHERE property_id = %s AND value = %s LIMIT 1'
 insert_ds_item = 'INSERT INTO datascribe_item (dataset_id, item_id, synced_by_id, synced) VALUES (%s, %s, %s, %s)'
-insert_ds_record = 'INSERT INTO datascribe_record (item_id, owner_id, created_by_id, created) VALUES (%s, %s, %s, %s)'
+insert_ds_record = 'INSERT INTO datascribe_record (item_id, owner_id, created_by_id, created, position) VALUES (%s, %s, %s, %s, %s)'
 insert_ds_value = 'INSERT INTO datascribe_value (field_id, record_id, text) VALUES (%s, %s, %s)'
 
 with open('transcriptions.csv', newline='') as csv_file:
@@ -28,7 +28,7 @@ with open('transcriptions.csv', newline='') as csv_file:
         cursor.execute(insert_ds_item, (constants.DATASET_ID, o_item_id, constants.USER_ID, datetime.now()))
         ds_item_id = cursor.lastrowid
         # Create DataScribe record.
-        cursor.execute(insert_ds_record, (ds_item_id, constants.USER_ID, constants.USER_ID, datetime.now()))
+        cursor.execute(insert_ds_record, (ds_item_id, constants.USER_ID, constants.USER_ID, datetime.now(), 1))
         ds_record_id = cursor.lastrowid
         # Create DataScribe values.
         for csv_column, ds_field_id in constants.FIELD_IDS.items():
