@@ -18,7 +18,7 @@ with open('transcriptions.csv', newline='') as csv_file:
     reader = csv.DictReader(csv_file)
     for csv_row in reader:
         # Get corresponding Omeka item.
-        cursor.execute(select_o_item, (constants.PROPERTY_ID_IMAGE_ORIGINAL_PATH, csv_row['relative_path_to_img']))
+        cursor.execute(select_o_item, (constants.PROPERTY_ID, csv_row['relative_path_to_img']))
         o_item_row = cursor.fetchone()
         if o_item_row is None:
             print('Item not found: {}'.format(csv_row['relative_path_to_img']))
