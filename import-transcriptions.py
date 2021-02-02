@@ -12,7 +12,7 @@ cursor = conn.cursor()
 select_o_item = 'SELECT resource_id FROM value WHERE property_id = %s AND value = %s LIMIT 1'
 insert_ds_item = 'INSERT INTO datascribe_item (dataset_id, item_id, synced_by_id, synced) VALUES (%s, %s, %s, %s)'
 insert_ds_record = 'INSERT INTO datascribe_record (item_id, owner_id, created_by_id, created, position) VALUES (%s, %s, %s, %s, %s)'
-insert_ds_value = 'INSERT INTO datascribe_value (field_id, record_id, text) VALUES (%s, %s, %s)'
+insert_ds_value = 'INSERT INTO datascribe_value (field_id, record_id, is_missing, is_illegible, text) VALUES (%s, %s, %s, %s, %s)'
 
 with open('transcriptions.csv', newline='') as csv_file:
     reader = csv.DictReader(csv_file)
@@ -32,16 +32,21 @@ with open('transcriptions.csv', newline='') as csv_file:
         ds_record_id = cursor.lastrowid
         # Create DataScribe values.
         for csv_column, ds_field_id in constants.FIELD_IDS.items():
-            # urban_rural_code
-            if csv_column == 'urban_rural_code':
+            text = csv_row[csv_column]
+            is_missing = 0
+            is_illegible = 0
+            # Handle special cases.
+            if text == 'NA':
+                # "NA" means the value is missing
+                text = None
+                is_missing = 1
+            elif csv_column == 'urban_rural_code':
+                # urban_rural_code
                 if csv_row['urban_rural_code'] == 'R':
                     text = 'Rural'
                 elif csv_row['urban_rural_code'] == 'U':
                     text = 'Urban'
                 else:
                     text = None
-            # default
-            else:
-                text = csv_row[csv_column]
-            cursor.execute(insert_ds_value, (ds_field_id, ds_record_id, text))
+            cursor.execute(insert_ds_value, (ds_field_id, ds_record_id, is_missing, is_illegible, text))
     conn.commit()
