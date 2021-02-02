@@ -12,16 +12,16 @@ PROPERTY_ID_IMAGE_ORIGINAL_PATH = 210 # mare:imageOriginalPath
 
 # Map from CSV column to DataScribe field ID
 FIELD_IDS = {
-    'census_code': 0,
-    'urban_rural_code': 0,
-    'b_division': 0,
-    'c_local_name_of_church': 0,
-    'd_city': 0,
-    '01_male_members': 0,
-    '02_female_members': 0,
-    '03_total_members_by_sex': 0,
-    '04_members_under_13': 0,
-    '05_members_over_13': 0,
+    'census_code': 2,
+    'urban_rural_code': 16,
+    'b_division': 4,
+    'c_local_name_of_church': 5,
+    'd_city': 45,
+    '01_male_members': 8,
+    '02_female_members': 9,
+    '03_total_members_by_sex': 10,
+    '04_members_under_13': 11,
+    '05_members_over_13': 12,
 }
 
 FIELD_relative_path_to_img = 0
