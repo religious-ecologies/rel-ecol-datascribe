@@ -43,7 +43,8 @@ FIELD_MAP = {
     '23b_parochial_secondary_teachers':     32,
     '24a_parochial_elementary_scholars':    33,
     '24b_parochial_secondary_scholars':     34,
-    # 25_pastor_name
+    '25_pastor_name':                       36,
+    '25a_has_pastor':                       35,
     '26_asst_pastors':                      37,
     '27_other_churches':                    38,
     '28_pastor_college':                    39,
@@ -85,7 +86,8 @@ FLAGGED_MAP = {
     '23b_parochial_secondary_teachers':     '23b_flagged',
     '24a_parochial_elementary_scholars':    '24a_flagged',
     '24b_parochial_secondary_scholars':     '24b_flagged',
-    # 25_pastor_name
+    '25_pastor_name':                       '25_flagged',
+    '25a_has_pastor':                       '25a_has_pastor_flagged',
     '26_asst_pastors':                      '26_flagged',
     '27_other_churches':                    '27_flagged',
     '28_pastor_college':                    '28_flagged',
