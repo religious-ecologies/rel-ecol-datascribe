@@ -25,7 +25,11 @@ with open('transcriptions.csv', newline='') as csv_file:
             continue
         o_item_id = o_item_row[0]
         # Create the DataScribe item.
-        cursor.execute(insert_ds_item, (constants.DATASET_ID, o_item_id, constants.USER_ID, datetime.now()))
+        try:
+            cursor.execute(insert_ds_item, (constants.DATASET_ID, o_item_id, constants.USER_ID, datetime.now()))
+        except mysql.connector.errors.IntegrityError:
+            print('Duplicate key: {}'.format(csv_row['relative_path_to_img']))
+            continue
         ds_item_id = cursor.lastrowid
         # Create the DataScribe record.
         cursor.execute(insert_ds_record, (ds_item_id, constants.USER_ID, constants.USER_ID, datetime.now(), 1))
